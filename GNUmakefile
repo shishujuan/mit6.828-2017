@@ -219,7 +219,7 @@ git-handin: handin-check
 		false; \
 	fi
 
-WEBSUB := https://6828.scripts.mit.edu/2016/handin.py
+WEBSUB := https://6828.scripts.mit.edu/2017/handin.py
 
 handin: tarball-pref myapi.key
 	@SUF=$(LAB); \
@@ -252,7 +252,7 @@ handin-check:
 		test "$$r" = y; \
 	fi
 
-UPSTREAM := $(shell git remote -v | grep "pdos.csail.mit.edu/6.828/2016/jos.git (fetch)" | awk '{split($$0,a," "); print a[1]}')
+UPSTREAM := $(shell git remote -v | grep "pdos.csail.mit.edu/6.828/2017/jos.git (fetch)" | awk '{split($$0,a," "); print a[1]}')
 
 tarball-pref: handin-check
 	@SUF=$(LAB); \
