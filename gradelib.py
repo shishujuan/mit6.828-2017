@@ -436,7 +436,7 @@ Failed to shutdown QEMU.  You might need to 'killall qemu' or
     def __monitor_start(self, output):
         if b"\n" in output:
             try:
-                self.gdb = GDBClient(self.qemu.get_gdb_port(), timeout=2)
+                self.gdb = GDBClient(self.qemu.get_gdb_port(), timeout=30)
                 raise TerminateTest
             except socket.error:
                 pass
