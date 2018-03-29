@@ -28,6 +28,7 @@ static struct Command commands[] = {
 	{ "backtrace", "Display backtrace information", mon_backtrace },
 	{ "showmappings", "Display mapping information", mon_showmappings },
 	{ "setperm", "Set mapping page perm", mon_setperm },
+	{ "showvm", "Display value in virtual memory", mon_showvm },
 };
 
 /***** Implementations of basic kernel monitor commands *****/
@@ -168,6 +169,22 @@ mon_setperm(int argc, char **argv, struct Trapframe *tf)
 	return 0;
 }
 
+int
+mon_showvm(int argc, char **argv, struct Trapframe *tf)
+{
+	if (argc < 3) {
+		cprintf("Usage: showvm addr n\n");
+		return 0;
+	}
+
+	void** addr = (void**) strtol(argv[1], NULL, 16);
+	uint32_t n = strtol(argv[2], NULL, 10);
+	int i;
+	for (i = 0; i < n; i++) {
+		cprintf("vm at %x is %x\n", addr+i, addr[i]);
+	}
+	return 0;
+}
 
 /***** Kernel monitor command interpreter *****/
 
