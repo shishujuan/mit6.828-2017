@@ -110,9 +110,12 @@ mpsearch(void)
 	// The BIOS data area lives in 16-bit segment 0x40.
 	bda = (uint8_t *) KADDR(0x40 << 4);
 
+	// cprintf("bda:%x\n", bda);
+
 	// [MP 4] The 16-bit segment of the EBDA is in the two bytes
 	// starting at byte 0x0E of the BDA.  0 if not present.
 	if ((p = *(uint16_t *) (bda + 0x0E))) {
+		// cprintf("in ebda p=%x, %d\n", p, p);
 		p <<= 4;	// Translate from segment to PA
 		if ((mp = mpsearch1(p, 1024)))
 			return mp;
@@ -123,6 +126,7 @@ mpsearch(void)
 		if ((mp = mpsearch1(p - 1024, 1024)))
 			return mp;
 	}
+	cprintf("search 0xf0000-0xfffff\n");
 	return mpsearch1(0xF0000, 0x10000);
 }
 
@@ -142,6 +146,7 @@ mpconfig(struct mp **pmp)
 		return NULL;
 	}
 	conf = (struct mpconf *) KADDR(mp->physaddr);
+	cprintf("mp:%x, conf paddr:%x, version:%x\n", mp, mp->physaddr, conf->version);
 	if (memcmp(conf, "PCMP", 4) != 0) {
 		cprintf("SMP: Incorrect MP configuration table signature\n");
 		return NULL;
@@ -176,6 +181,7 @@ mp_init(void)
 		return;
 	ismp = 1;
 	lapicaddr = conf->lapicaddr;
+	cprintf("lapicaddr:%x, entries:%d\n", lapicaddr, conf->entry);
 
 	for (p = conf->entries, i = 0; i < conf->entry; i++) {
 		switch (*p) {
