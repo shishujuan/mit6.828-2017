@@ -647,7 +647,7 @@ user_mem_check(struct Env *env, const void *va, size_t len, int perm)
 	int check_perm = (perm | PTE_P);
 	uint32_t check_va = (uint32_t)va;
 
-	cprintf("check va:%x, len:%x, begin:%x, end:%x\n", va, len, begin, end);
+	// cprintf("check va:%x, len:%x, begin:%x, end:%x\n", va, len, begin, end);
 
 	for (; begin < end; begin += PGSIZE) {
 		pte_t *pte = pgdir_walk(env->env_pgdir, (void *)begin, 0);

@@ -286,6 +286,7 @@ trap(struct Trapframe *tf)
 		// Acquire the big kernel lock before doing any
 		// serious kernel work.
 		// LAB 4: Your code here.
+		lock_kernel();
 		assert(curenv);
 
 		// Garbage collect if current enviroment is a zombie
@@ -332,6 +333,7 @@ page_fault_handler(struct Trapframe *tf)
 
 	// LAB 3: Your code here.
 	if ((tf->tf_cs & 3) == 0) {
+		print_trapframe(tf);
 		panic("kernel page fault at va:%x\n", fault_va);
 	}
 
