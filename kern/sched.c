@@ -30,10 +30,10 @@ sched_yield(void)
 
 	// LAB 4: Your code here.
 	idle = curenv;
-	int cur_id = idle ? ENVX(idle->env_id) : 0;
+	int start_envid = idle ? ENVX(idle->env_id)+1 : 0;
 
 	for (int i = 0; i < NENV; i++) {
-		int j = (cur_id + i) % NENV;
+		int j = (start_envid + i) % NENV;
 		if (envs[j].env_status == ENV_RUNNABLE) {
 			env_run(&envs[j]);
 		}
@@ -88,7 +88,7 @@ sched_halt(void)
 		"pushl $0\n"
 		"pushl $0\n"
 		// Uncomment the following line after completing exercise 13
-		//"sti\n"
+		"sti\n"
 		"1:\n"
 		"hlt\n"
 		"jmp 1b\n"
