@@ -72,14 +72,14 @@ duppage(envid_t envid, unsigned pn)
 	// panic("duppage not implemented");
 	void *addr = (void *)(pn * PGSIZE);
 	if (uvpt[pn] & (PTE_W|PTE_COW)) {
-		if (sys_page_map(0, addr, envid, addr, PTE_COW|PTE_U|PTE_P) < 0)
-			panic("sys_page_map COW:%e", envid);
+		if ((r = sys_page_map(0, addr, envid, addr, PTE_COW|PTE_U|PTE_P)) < 0)
+			panic("sys_page_map COW:%e", r);
 
-		if (sys_page_map(0, addr, 0, addr, PTE_COW|PTE_U|PTE_P) < 0)
-			panic("sys_page_map COW:%e", 0);
+		if ((r = sys_page_map(0, addr, 0, addr, PTE_COW|PTE_U|PTE_P)) < 0)
+			panic("sys_page_map COW:%e", r);
 	} else {
-		if (sys_page_map(0, addr, envid, addr, PTE_U|PTE_P) < 0)
-			panic("sys_page_map UP:%e", envid);
+		if ((r = sys_page_map(0, addr, envid, addr, PTE_U|PTE_P)) < 0)
+			panic("sys_page_map UP:%e", r);
 	}
 	return 0;
 }
