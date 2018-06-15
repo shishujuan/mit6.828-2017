@@ -257,7 +257,7 @@ sys_page_unmap(envid_t envid, void *va)
 	struct Env *e;
 	if (envid2env(envid, &e, 1)) return -E_BAD_ENV;
 
-	if (va >= (void *)UTOP) return -E_INVAL;
+	if (va >= (void *)UTOP || PGOFF(va)) return -E_INVAL;
 
 	page_remove(e->env_pgdir, va);
 	return 0;
