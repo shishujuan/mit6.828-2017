@@ -58,6 +58,8 @@ lapic_init(void)
 	if (!lapicaddr)
 		return;
 
+	cprintf("lapicaddr:%x, ID:%x\n", lapicaddr, ID);
+
 	// lapicaddr is the physical address of the LAPIC's 4K MMIO
 	// region.  Map it in to virtual memory so we can access it.
 	lapic = mmio_map_region(lapicaddr, 4096);
