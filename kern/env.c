@@ -467,7 +467,7 @@ env_destroy(struct Env *e)
 	// If e is currently running on other CPUs, we change its state to
 	// ENV_DYING. A zombie environment will be freed the next time
 	// it traps to the kernel.
-	cprintf("in env_destroy curenv:%x, cpunum:%d, e:%x, ecpunum:%d\n", curenv->env_id, thiscpu->cpu_id, e->env_id, e->env_cpunum);
+	// cprintf("in env_destroy curenv:%x, cpunum:%d, e:%x, ecpunum:%d\n", curenv->env_id, thiscpu->cpu_id, e->env_id, e->env_cpunum);
 	if (e->env_status == ENV_RUNNING && curenv != e) {
 		cprintf("set e:%x to dying\n", e->env_id);
 		e->env_status = ENV_DYING;

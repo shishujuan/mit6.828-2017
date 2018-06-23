@@ -72,7 +72,7 @@ duppage(envid_t envid, unsigned pn)
 	// panic("duppage not implemented");
 	void *addr = (void *)(pn * PGSIZE);
 	if (uvpt[pn] & PTE_SHARE) {
-		cprintf("dup share page :%d\n", pn);
+		// cprintf("dup share page :%d\n", pn);
 		if ((r = sys_page_map(0, addr, envid, addr, PTE_SYSCALL)) < 0)
 			panic("duppage sys_page_map:%e", r);
 	} else if (uvpt[pn] & (PTE_W|PTE_COW)) {

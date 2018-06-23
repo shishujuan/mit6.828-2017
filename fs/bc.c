@@ -48,7 +48,7 @@ bc_pgfault(struct UTrapframe *utf)
 	// the disk.
 	//
 	// LAB 5: you code here:
-	cprintf("bc pgfault block:%d, bitmap:%x\n", blockno, bitmap);
+	// cprintf("bc pgfault block:%d, bitmap:%x\n", blockno, bitmap);
 
 	addr = (void *)ROUNDDOWN(addr, PGSIZE);
 	if ((r = sys_page_alloc(0, addr, PTE_W|PTE_U|PTE_P)))
