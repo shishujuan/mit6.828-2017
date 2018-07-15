@@ -21,6 +21,10 @@
 #define E1000_TXD_CMD_EOP    0x00000001 /* End of Packet */
 #define E1000_TXD_CMD_RS     0x00000008 /* Report Status */
 
+enum {
+	E_TRANSMIT_RETRY = 1,
+};
+
 
 /*transmit descriptor related*/
 struct e1000_tx_desc
@@ -74,5 +78,6 @@ struct e1000_tdh {
 
 int e1000_attachfn(struct pci_func *pcif);
 static void e1000_transmit_init();
+int e1000_transmit(void *data, size_t len);
 
 #endif	// JOS_KERN_E1000_H
