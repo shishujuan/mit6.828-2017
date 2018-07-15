@@ -398,11 +398,16 @@ sys_time_msec(void)
 	return time_msec();
 }
 
-
 static int
 sys_pkt_send(void *data, int len)
 {
 	return e1000_transmit(data, len);
+}
+
+static int
+sys_pkt_recv(void *addr, size_t *len)
+{
+	return e1000_receive(addr, len);
 }
 
 // Dispatches to the correct kernel function, passing the arguments.
@@ -450,6 +455,8 @@ syscall(uint32_t syscallno, uint32_t a1, uint32_t a2, uint32_t a3, uint32_t a4, 
 		return sys_time_msec();
 	case SYS_pkt_send:
 		return sys_pkt_send((void *)a1, a2);
+	case SYS_pkt_recv:
+		return sys_pkt_recv((void *)a1, (size_t *)a2);
 	default:
 		return -E_INVAL;
 	}
