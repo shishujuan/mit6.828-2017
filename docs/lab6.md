@@ -190,7 +190,7 @@ struct jif_pkt {
 core network env -> output helper env -> e1000 driver
 ```
 
-# 4 接收数据包及input helper进程
+# 5 接收数据包及input helper进程
 
 类似传输数据包，接下来完成接收数据包流程。这里要设置接收描述符和接收描述符队列，接收描述符和队列结构在文档3.2节描述，而初始化细节在 14.4节。
 
@@ -207,7 +207,7 @@ RDT寄存器则是存放的是网卡可用用来存放数据包的最后一个�
 - 而当网卡接收到ARP请求后，会响应请求并输出响应到我们设置的接收描述符队列中。
 - 网卡输出完毕后，会设置接收描述符的DD标记，此时input进程从接收描述符接收到网卡的数据包，并将其发送给core network server 进程。注意这里，每次接收后发送要间隔一段时间，因为网络服务器进程读取数据需要一定时间。
 
-# 5 WEB服务器
+# 6 WEB服务器
 最后是实现web服务器，类似httpd，主要完成send_file和send_data函数。实现就是根据请求解析出文件名，然后调用 fstat 获取文件大小类型等元数据，并调用readn读取文件以及使用writen写入文件数据到socket中。
 
 注意这里的accept，bind等函数都是 `lib/sockets.c`中定义的，最终都是通过IPC功能将请求发送至 core network server进程(ns/serv.c)，然后 core network server进程再调用的lwip来实现相关功能。这里用到了线程，线程实现在 `net/lwip/jos/arch/thread.c`中。
